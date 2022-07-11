@@ -2,9 +2,15 @@ package com.ll.exam.pro;
 
 public class Rq {
     String url;
-
+    String path;
+    String queryString;
     public Rq(String url){
         this.url=url;
+        String[] urlBits=url.split("\\?",2);
+        this.path=urlBits[0];
+        if(urlBits.length==2) {
+            this.queryString = urlBits[1];
+        }
     }
     public int getIntParam(String paramName,int defaultValue){
         String[] urlBits=url.split("\\?",2);
