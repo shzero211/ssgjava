@@ -10,6 +10,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
     @Test
+    public void Rq_getPath(){
+        Rq rq=new Rq("삭제?id=1");
+        String path=rq.getPath();
+        assertEquals("삭제",path);
+    }
+    @Test
     public void Rq_getIntParam(){
         Rq rq=new Rq("삭제?id=1");
         int id =rq.getIntParam("id",0);

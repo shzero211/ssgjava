@@ -2,6 +2,7 @@ package com.ll.exam.pro;
 
 public class Rq {
     String url;
+
     public Rq(String url){
         this.url=url;
     }
@@ -20,5 +21,10 @@ public class Rq {
             }
         }
         return 0;
+    }
+
+    public String getPath() {
+        String[] urlBits=url.split("\\?",2);
+        return urlBits[0];
     }
 }
