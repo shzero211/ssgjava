@@ -8,17 +8,17 @@ public class Rq {
         this.url=url;
         String[] urlBits=url.split("\\?",2);
         this.path=urlBits[0];
+
         if(urlBits.length==2) {
             this.queryString = urlBits[1];
         }
     }
     public int getIntParam(String paramName,int defaultValue){
-        String[] urlBits=url.split("\\?",2);
-        if(urlBits.length==1){
-            return defaultValue;
-        }
-        urlBits=urlBits[1].split("&");
-        for(String urlBit:urlBits){
+      if(queryString==null){
+          return defaultValue;
+      }
+      String[] bits=queryString.split("&");
+        for(String urlBit:bits){
             String[] paramNameAndValue=urlBit.split("=",2);
             String paramName_=paramNameAndValue[0];
             String paramValue=paramNameAndValue[1];
@@ -26,7 +26,7 @@ public class Rq {
                 return Integer.parseInt(paramValue);
             }
         }
-        return 0;
+        return defaultValue;
     }
 
     public String getPath() {
