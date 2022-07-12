@@ -1,6 +1,6 @@
 package com.ll.exam.pro;
 
-public class WiseSaying {
+class WiseSaying {
    public int id;
    public  String content;
    public   String author;
