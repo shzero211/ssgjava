@@ -9,6 +9,9 @@ class WiseSaying {
         this.content=content;
         this.author=author;
     }
+    WiseSaying(){
+
+    }
 
     @Override
     public String toString() {

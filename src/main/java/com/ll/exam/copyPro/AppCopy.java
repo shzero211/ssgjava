@@ -2,6 +2,7 @@ package com.ll.exam.copyPro;
 
 import com.sun.security.jgss.GSSUtil;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -9,13 +10,20 @@ public class AppCopy {
     private Scanner sc;
     private ArrayList<WiseSaying> wiseSayings;
     private int wiseSayingLastId;
-    public AppCopy(){
+
+    private BufferedReader br;
+    private BufferedWriter bw;
+    public AppCopy() throws IOException {
         sc=new Scanner(System.in);
         wiseSayings=new ArrayList<>();
+
+        br=new BufferedReader(new FileReader("C:\\Users\\KIM\\IdeaProjects\\ssgjava\\jsonFile.json"));
+       bw=new BufferedWriter(new FileWriter("C:\\Users\\KIM\\IdeaProjects\\ssgjava\\jsonFile.json"));
         wiseSayingLastId=0;
     }
-    public void run() {
+    public void run() throws IOException {
         System.out.println("==명언 SSG==");
+        load();
         out:
         while (true) {
             System.out.printf("명령) ");
@@ -44,9 +52,38 @@ public class AppCopy {
         }
     }
 
-    private void save() {
+    private void load() throws IOException {
+        WiseSaying wiseSaying =new WiseSaying();
+        String str="";
+        while((str=br.readLine())!=null){
+          if(str.contains(":")){
+              String[] cmdBits=str.split("\\:",2);
+              if(cmdBits[0].contains("id")){
+                wiseSaying.id=Integer.parseInt(cmdBits[1].replace(",","").trim());
+              }
+             else if(cmdBits[0].contains("name")){
+                  wiseSaying.author=cmdBits[1].replace(",","").replace("\"","").trim();
+              }
+             else if(cmdBits[0].contains("content")){
+                  wiseSaying.content=cmdBits[1].replace(",","").replace("\"","").trim();
+              }
+
+          }
+            if(str.contains("}")){
+                wiseSayings.add(wiseSaying);
+                wiseSaying=new WiseSaying();
+                wiseSayingLastId++;
+            }
+
+            /*
+         */
+
+        }
+    }
+
+    private void save() throws IOException {
         for(WiseSaying wiseSaying:wiseSayings){
-            System.out.println(wiseSaying.toString()+",");
+           bw.write( wiseSaying.toString());
         }
     }
 
