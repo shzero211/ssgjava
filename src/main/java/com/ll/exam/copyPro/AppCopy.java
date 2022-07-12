@@ -18,7 +18,6 @@ public class AppCopy {
         wiseSayings=new ArrayList<>();
 
         br=new BufferedReader(new FileReader("C:\\Users\\KIM\\IdeaProjects\\ssgjava\\jsonFile.json"));
-       bw=new BufferedWriter(new FileWriter("C:\\Users\\KIM\\IdeaProjects\\ssgjava\\jsonFile.json"));
         wiseSayingLastId=0;
     }
     public void run() throws IOException {
@@ -70,21 +69,35 @@ public class AppCopy {
 
           }
             if(str.contains("}")){
+                System.out.println(wiseSaying.toString());
                 wiseSayings.add(wiseSaying);
                 wiseSaying=new WiseSaying();
                 wiseSayingLastId++;
             }
-
-            /*
-         */
-
         }
     }
 
     private void save() throws IOException {
+        bw=new BufferedWriter(new FileWriter("C:\\Users\\KIM\\IdeaProjects\\ssgjava\\jsonFile.json"));
         for(WiseSaying wiseSaying:wiseSayings){
-           bw.write( wiseSaying.toString());
+           if(wiseSaying.id==1){
+               bw.write("[\n"+wiseSaying.toString());
+           }else if(wiseSaying.id>1&&wiseSaying.id<wiseSayings.size()){
+               bw.write(",\n"+wiseSaying.toString());
+           }
+           if(wiseSaying.id==wiseSayings.size()){
+               if(wiseSayings.size()==1){
+                   bw.write("\n]");
+               }else{
+                   bw.write(",\n"+wiseSaying.toString()+"\n]");
+               }
+
+           }
+
+
         }
+        bw.flush();
+        bw.close();
     }
 
     private void write(Rq rq) {
@@ -94,6 +107,7 @@ public class AppCopy {
         String author=sc.nextLine().trim();
         WiseSaying wiseSaying=new WiseSaying(++wiseSayingLastId,content,author);
         wiseSayings.add(wiseSaying);
+
         System.out.printf("%d번 명언이 등록되었습니다.\n",wiseSayingLastId);
     }
     private void list(Rq rq) {
