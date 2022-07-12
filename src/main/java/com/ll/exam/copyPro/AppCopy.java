@@ -28,10 +28,14 @@ public class AppCopy {
                 case "삭제":
                     remove(rq);
                     break;
+                case "수정":
+                    modify(rq);
+                    break;
                 case "목록":
                     list(rq);
                     break;
                 case "종료":
+                    save();
                     break out;
                 default:
                     break;
@@ -39,6 +43,13 @@ public class AppCopy {
             }
         }
     }
+
+    private void save() {
+        for(WiseSaying wiseSaying:wiseSayings){
+            System.out.println(wiseSaying.toString()+",");
+        }
+    }
+
     private void write(Rq rq) {
         System.out.printf("명언 : ");
         String content=sc.nextLine().trim();
@@ -75,6 +86,32 @@ public class AppCopy {
         }
         wiseSayings.remove(findWiseSaying);
         System.out.printf("%d 번 명언이 삭제되었습니다.\n",urlid);
+    }
+    private void modify(Rq rq){
+        int urlid=rq.getIntParam("id",0);
+        if(urlid==0){
+            System.out.println("id 값을 입력하세요");
+            return ;
+        }
+        WiseSaying findWiseSaying=null;
+        for(WiseSaying wiseSaying:wiseSayings){
+            if(wiseSaying.id==urlid){
+                findWiseSaying=wiseSaying;
+            }
+        }
+        if(findWiseSaying==null){
+            System.out.printf("%d번 명언은 존재하지 않습니다..\n",urlid);
+            return;
+        }
+        WiseSaying wiseSaying=wiseSayings.get(findWiseSaying.id-1);
+        System.out.println("기존 명언 : "+wiseSaying.content);
+        System.out.printf("새 명언 : ");
+       wiseSaying.content= sc.nextLine().trim();
+        System.out.println("기존 작가 : "+wiseSaying.author);
+        System.out.printf("새 작가 : ");
+        wiseSaying.author= sc.nextLine().trim();
+        wiseSayings.set(findWiseSaying.id-1,wiseSaying);
+        return;
     }
 
 

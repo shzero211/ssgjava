@@ -9,4 +9,13 @@ class WiseSaying {
         this.content=content;
         this.author=author;
     }
+
+    @Override
+    public String toString() {
+        return "{\n" +
+                "\"id\" : " + id + ",\n" +
+                "\"name\" : " + "\"" + content + "\",\n" +
+                "\"content\" : " + "\"" + author+ "\"\n" +
+                "}";
+    }
 }
